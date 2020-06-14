@@ -30,5 +30,5 @@ RUN apt-get update && \
 WORKDIR /
 COPY code/* /
 
-#ENTRYPOINT ["python", "main.py"]
+ENTRYPOINT ["python", "train.py"]
 
