@@ -13,7 +13,7 @@ import cv2
 import os
 import awscam
 import greengrasssdk
-
+import threading
 
 iotTopic = '$aws/things/{}/infer'.format(os.environ['AWS_IOT_THING_NAME'])
 
@@ -63,7 +63,6 @@ def infinite_infer_run():
 		# initialize the set of indexes that violate the minimum social
 		# distance
 		violate = set()
-
 		# ensure there are *at least* two people detections (required in
 		# order to compute our pairwise distance maps)
 		if len(results) >= 2:
@@ -88,9 +87,9 @@ def infinite_infer_run():
 
 		# draw the total number of social distancing violations on the
 		# output frame
-		msg = { "violation":len(violate)}
+		msg ='{ "violation":'+str(len(violate))+'}'
 		client.publish(topic=iotTopic, payload=msg)
-		Timer(15, greengrass_infinite_infer_run).start()
+	threading.Timer(15, greengrass_infinite_infer_run).start()
 
 infinite_infer_run()
 
