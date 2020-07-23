@@ -33,20 +33,18 @@ def infinite_infer_run():
         res = img[:, :, ::-1].transpose(2, 0, 1)
         res = np.expand_dims( res ,axis=0).astype(np.float32)    
 
-        # Perform the actual detection by running the model with the image as input
+        # Using onnx model to get the bounding boxes of objects
         outcome = session.run(None, {"images":res})
-        #only want inferences that have a prediction score of 50% and higher
+
         msg = '{'
         for idx, val in enumerate(outcome):
-            msg += str(val) 
-        msg = msg.rstrip(',')
+            msg += str(val)
         msg +='}'
             
         client.publish(topic=iotTopic, payload = msg)
-            
 
     # Asynchronously schedule this function to be run again in 15 seconds
-    Timer(15, greengrass_infinite_infer_run).start()
+    Timer(15, infinite_infer_run).start()
         
 infinite_infer_run()
 
