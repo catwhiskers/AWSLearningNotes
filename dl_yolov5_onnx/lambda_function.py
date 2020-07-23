@@ -4,7 +4,6 @@ import mo
 import cv2
 import greengrasssdk
 import os
-from local_display import LocalDisplay
 import onnx
 import onnxruntime
 import numpy as np
